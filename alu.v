@@ -19,9 +19,9 @@ module alu(
     reg stall_div_tp;
 
 //===============================================add,addu,addi,addiu,sub,subu
-	wire[31:0] s,bout;
-	assign bout = op[1] ? ~b : b;
-	assign s = a + bout + op[1];
+	// wire[31:0] s,bout;
+	// assign bout = op[1] ? ~b : b;
+	// assign s = a + bout + op[1];
 //===============================================
 
 //===============================================slt,slti
@@ -118,20 +118,20 @@ module alu(
             `EXE_MFLO_OP: y_tp <= hilo_i[31:0]; // from LO to GR
             `EXE_MTLO_OP: y_tp <= b; // from GR to LO
             // calculate instruction
-			`EXE_ADD_OP: y_tp <= s;
-			`EXE_ADDU_OP: y_tp <= s;
-			`EXE_ADDI_OP: y_tp <= s;
-			`EXE_ADDIU_OP: y_tp <= s;
-			`EXE_SUB_OP: y_tp <= s;
-			`EXE_SUBU_OP: y_tp <= s;
+			`EXE_ADD_OP: y_tp <= sadd;
+			`EXE_ADDU_OP: y_tp <= sadd;
+			`EXE_ADDI_OP: y_tp <= sadd;
+			`EXE_ADDIU_OP: y_tp <= sadd;
+			`EXE_SUB_OP: y_tp <= ssub;
+			`EXE_SUBU_OP: y_tp <= ssub;
 			`EXE_SLT_OP: y_tp <= slt_s[31];
 			`EXE_SLTU_OP: y_tp <= slt_su[32];
 			`EXE_SLTI_OP: y_tp <= slt_s[31];
 			`EXE_SLTIU_OP: y_tp <= slt_su[32];
-			`EXE_DIV_OP: hilo_tp <= {remainder,quotient};
-			`EXE_DIVU: hilo_tp <= {remainder,quotient};
-			`EXE_MULT_OP: hilo_tp <= hilo_temp;
-			`EXE_MULTU_OP: hilo_tp <= {32'b0, a} * {32'b0, b};
+			// `EXE_DIV_OP: hilo_tp <= {remainder,quotient};
+			// `EXE_DIVU: hilo_tp <= {remainder,quotient};
+			// `EXE_MULT_OP: hilo_tp <= hilo_temp;
+			// `EXE_MULTU_OP: hilo_tp <= {32'b0, a} * {32'b0, b};
             // branch instruction
 
 			default : y_tp <= 32'b0;
@@ -145,14 +145,20 @@ module alu(
 		case (op)
 			`EXE_MTHI_OP: hilo_tp <= {a[31:0], {hilo_i[31:0]}};
             `EXE_MTLO_OP: hilo_tp <= {{hilo_i[63:32]}, a[31:0]};
-            
+            `EXE_DIV_OP: hilo_tp <= {remainder,quotient};
+            `EXE_DIVU: hilo_tp <= {remainder,quotient};
+            `EXE_MULT_OP: hilo_tp <= hilo_temp;
+            `EXE_MULTU_OP: hilo_tp <= {32'b0, a} * {32'b0, b};
 			default : hilo_tp <= hilo_i;
 		endcase
 	end
 
 	assign hilo_o = hilo_tp;
-
-    assign overflow = ((op==`EXE_ADD_OP)|(op==`EXE_ADDI_OP)) ? ((a[31] & b[31] & ~s[31] )|( ~a[31] & ~b[31] & s[31])) :
-                    (op==`EXE_SUB_OP) ? ((a[31] & ~b[31]& ~s[31])|(~a[31] & b[31] & s[31])) : 1'b0;
+    wire [31:0] sadd;
+    wire [31:0] ssub;
+    assign sadd = a + b;
+    assign ssub = a - b; 
+    assign overflow = ((op==`EXE_ADD_OP)|(op==`EXE_ADDI_OP)) ? ((a[31] & b[31] & ~sadd[31] )|( ~a[31] & ~b[31] & sadd[31])) :
+                    (op==`EXE_SUB_OP) ? ((a[31] & ~b[31]& ~ssub[31])|(~a[31] & b[31] & ssub[31])) : 1'b0;
 	
 endmodule

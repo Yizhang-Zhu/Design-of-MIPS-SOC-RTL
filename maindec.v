@@ -40,6 +40,10 @@ module maindec(
 				`EXE_MTHI:controls <= 10'b0100000101;//mthi
 				`EXE_MFLO:controls <= 10'b1100000100;//mflo
 				`EXE_MTLO:controls <= 10'b0100000101;//mtlo
+				`EXE_MULT:controls <= 10'b0100000101;
+				`EXE_MULTU:controls <= 10'b0100000101;
+				`EXE_DIV:controls <= 10'b0100000101;
+				`EXE_DIVU:controls <= 10'b0100000101;
 				default:controls <= 10'b1100000100;//R-TYRE
 			endcase
 			6'b001100:controls <= 10'b1010000000;//andi
@@ -56,7 +60,10 @@ module maindec(
 			6'b100011:controls <= 10'b1010010000;//LW
 			6'b101011:controls <= 10'b0010100000;//SW
 			6'b000100:controls <= 10'b0001000010;//BEQ
-			6'b001000:controls <= 10'b1010000000;//ADDI
+			6'b001000:controls <= 10'b1010000000;//ADDI 
+			`EXE_ADDIU:controls <= 10'b1010000000;// addiu 
+			`EXE_SLTI:controls <= 10'b1010000000;// slti 
+			`EXE_SLTIU:controls <= 10'b1010000000;//sltiu
 			
 			6'b000010:controls <= 10'b0000001000;//J
 			default:  controls <= 10'b0000000000;//illegal op
