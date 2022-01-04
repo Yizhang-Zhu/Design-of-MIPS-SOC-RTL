@@ -24,33 +24,45 @@ module mips(
 	input wire clk,rst,
 	output wire[31:0] pcF,
 	input wire[31:0] instrF,
-	output wire memwriteM,
+	output wire [3:0]memwriteM,
 	output wire[31:0] aluoutM,writedataM,
 	input wire[31:0] readdataM 
     );
 	
 	wire [5:0] opD,functD;
-	wire regdstE,alusrcE,pcsrcD,memtoregE,memtoregM,memtoregW,
+	wire [1:0] regdstE; 
+	wire alusrcE,pcsrcD,memtoregE,memtoregM,memtoregW,
 			regwriteE,regwriteM,regwriteW;
 	wire hilowriteM;
 	wire [7:0] alucontrolE;
 	wire flushE,equalD;
+	wire [3:0] memwriteD;
+	wire [2:0] memop;
+    wire [4:0] rtD;
+    wire [1:0]jumpop;
+    wire jbalE;
 
 	controller c(
 		clk,rst,
 		//decode stage
-		opD,functD,
-		pcsrcD,branchD,equalD,jumpD,
-		
+		opD,functD,rtD,
+		// pcsrcD,
+		branchD,
+		// equalD,
+		jumpD,
+		memwriteD,
+		memop,
+		jumpop,
 		//execute stage
 		stallE, flushE,
 		memtoregE,alusrcE,
 		regdstE,regwriteE,	
 		alucontrolE,
-
+		jbalE,
 		//mem stage
 		stallM, flushM,
-		memtoregM,memwriteM,
+		memtoregM,
+		// memwriteM,
 		regwriteM,hilowriteM,
 		//write back stage
 		stallW, flushW,
@@ -62,21 +74,27 @@ module mips(
 		pcF,
 		instrF,
 		//decode stage
-		pcsrcD,branchD,
+		// pcsrcD,
+		branchD,
 		jumpD,
-		equalD,
-		opD,functD,
+		// equalD,
+		opD,functD,rtD,
+		jumpop,
+		memwriteD,
+		memop,
 		//execute stage
 		memtoregE,
 		alusrcE,regdstE,
 		regwriteE,
 		alucontrolE,
+		jbalE,
 		stallE,flushE,
 		//mem stage
 		memtoregM,
 		regwriteM,
 		aluoutM,writedataM,
 		readdataM,
+		memwriteM,
 		hilowriteM,
 		stallM,flushM,
 		//writeback stage

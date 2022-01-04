@@ -21,7 +21,15 @@ module aludec(
 			`EXE_ADDIU: alucontrol_tp <= `EXE_ADDIU_OP; // addiu
 			`EXE_SLTI: alucontrol_tp <= `EXE_SLTI_OP; // slti
 			`EXE_SLTIU: alucontrol_tp <= `EXE_SLTIU_OP; //sltiu
-
+            // load/store
+            `EXE_LB: alucontrol_tp <= `EXE_LB_OP; //lb
+            `EXE_LBU: alucontrol_tp <= `EXE_LBU_OP; //lbu
+            `EXE_LH: alucontrol_tp <= `EXE_LH_OP; //lh
+            `EXE_LHU: alucontrol_tp <= `EXE_LHU_OP; //lhu
+            `EXE_LW: alucontrol_tp <= `EXE_LW_OP; //lw
+            `EXE_SB: alucontrol_tp <= `EXE_SB_OP; //sb
+            `EXE_SH: alucontrol_tp <= `EXE_SH_OP; //sh
+            `EXE_SW: alucontrol_tp <= `EXE_SW_OP; //sw
 
         	`EXE_NOP:case(funct) // R-type instruction, judge by funct6 part
         		// R-type logic instruction

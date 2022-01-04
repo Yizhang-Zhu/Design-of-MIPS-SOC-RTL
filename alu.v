@@ -104,7 +104,7 @@ module alu(
 			`EXE_ANDI_OP: y_tp <= a & b;
             `EXE_ORI_OP: y_tp <= a | b;
             `EXE_XORI_OP: y_tp <= a ^ b;
-            `EXE_LUI_OP: y_tp <= {b[15:0], b[31:16]}; // å°†16ç«‹å³æ•°immå†™å…¥å¯„å­˜å™¨rtçš„é«˜16ä½
+            `EXE_LUI_OP: y_tp <= {b[15:0], b[31:16]}; // ½«16Á¢¼´ÊýimmÐ´Èë¼Ä´æÆ÷rtµÄ¸ß16Î»
             // shift instruction
             `EXE_SLL_OP: y_tp <= b << sa;
             `EXE_SRL_OP: y_tp <= b >> sa;
@@ -132,8 +132,15 @@ module alu(
 			// `EXE_DIVU: hilo_tp <= {remainder,quotient};
 			// `EXE_MULT_OP: hilo_tp <= hilo_temp;
 			// `EXE_MULTU_OP: hilo_tp <= {32'b0, a} * {32'b0, b};
-            // branch instruction
-
+            // load/store instruction
+            `EXE_LB_OP: y_tp <= sadd;
+            `EXE_LBU_OP: y_tp <= sadd;
+            `EXE_LH_OP: y_tp <= sadd;
+            `EXE_LHU_OP: y_tp <= sadd;
+            `EXE_LW_OP: y_tp <= sadd;
+            `EXE_SB_OP: y_tp <= sadd;
+            `EXE_SH_OP: y_tp <= sadd;
+            `EXE_SW_OP: y_tp <= sadd;
 			default : y_tp <= 32'b0;
 		endcase	
 	end
