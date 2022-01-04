@@ -76,7 +76,7 @@ module div  (
          end
     end
      
-    assign quotient = sign_quotient ? ~(temp_a[31:0])+1'b1 : temp_a[31:0];
-    assign remainder = sign_remainder ? ~(temp_a[63:32])+1'b1 : temp_a[63:32];
+    assign quotient = sign==1'b1 ? (sign_quotient ? ~(temp_a[31:0])+1'b1 : temp_a[31:0]) : temp_a[31:0];
+    assign remainder = sign==1'b1 ? (sign_remainder ? ~(temp_a[63:32])+1'b1 : temp_a[63:32]) : temp_a[63:32];
   
 endmodule

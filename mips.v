@@ -43,15 +43,17 @@ module mips(
 		pcsrcD,branchD,equalD,jumpD,
 		
 		//execute stage
-		flushE,
+		stallE, flushE,
 		memtoregE,alusrcE,
 		regdstE,regwriteE,	
 		alucontrolE,
 
 		//mem stage
+		stallM, flushM,
 		memtoregM,memwriteM,
 		regwriteM,hilowriteM,
 		//write back stage
+		stallW, flushW,
 		memtoregW,regwriteW
 		);
 	datapath dp(
@@ -69,16 +71,18 @@ module mips(
 		alusrcE,regdstE,
 		regwriteE,
 		alucontrolE,
-		flushE,
+		stallE,flushE,
 		//mem stage
 		memtoregM,
 		regwriteM,
 		aluoutM,writedataM,
 		readdataM,
 		hilowriteM,
+		stallM,flushM,
 		//writeback stage
 		memtoregW,
-		regwriteW
+		regwriteW,
+		stallW,flushW
 	    );
 	
 endmodule
