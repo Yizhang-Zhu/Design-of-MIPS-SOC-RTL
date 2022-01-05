@@ -45,7 +45,7 @@ module datapath(
 	//decode stage
 	wire [4:0] saD;
 	wire [31:0] pcplus4D,instrD;
-	wire forwardaD,forwardbD;
+	wire [1:0] forwardaD,forwardbD;
 	wire [4:0] rsD,rdD;
 	wire flushD,stallD; 
 	wire [31:0] signimmD,signimmshD;
@@ -296,7 +296,7 @@ module datapath(
              2'b01: temp1[7:0] <= readdataW[23:16];
              2'b10: temp1[7:0] <= readdataW[15:8];
              2'b11: temp1[7:0] <= readdataW[7:0];
-             default: temp[7:0] <= 8'h00;
+             default: temp1[7:0] <= 8'h00;
          endcase
              temp2 <= {24'h000000,temp1[7:0]};
         end

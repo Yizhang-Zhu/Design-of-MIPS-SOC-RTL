@@ -32,15 +32,15 @@ module mips(
 	wire [5:0] opD,functD;
 	wire [1:0] regdstE; 
 	wire alusrcE,pcsrcD,memtoregE,memtoregM,memtoregW,
-			regwriteE,regwriteM,regwriteW;
-	wire hilowriteM;
+			regwriteE,regwriteM,regwriteW,stallW,flushW;
+	wire hilowriteM,stallM,flushM;
 	wire [7:0] alucontrolE;
-	wire flushE,equalD;
+	wire flushE,equalD,branchD,jumpD;
 	wire [3:0] memwriteD;
 	wire [2:0] memop;
     wire [4:0] rtD;
     wire [1:0]jumpop;
-    wire jbalE;
+    wire jbalE,stallE,flushE;
 
 	controller c(
 		clk,rst,
