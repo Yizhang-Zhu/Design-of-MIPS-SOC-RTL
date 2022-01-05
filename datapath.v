@@ -77,7 +77,7 @@ module datapath(
 	wire [31:0] aluoutW,readdataW,readdata2W,resultW;
 	wire [2:0] memopW;
 
-	// ä¸´æ—¶å˜é‡
+	// 临时变量
 	reg [3:0] temp;
 	reg [31:0] temp1,temp2;
 	reg [31:0] writedata;
@@ -175,7 +175,7 @@ module datapath(
 	flopenrc #(5) r4E(clk,rst,~stallE,flushE,rsD,rsE);
 	flopenrc #(5) r5E(clk,rst,~stallE,flushE,rtD,rtE);
 	flopenrc #(5) r6E(clk,rst,~stallE,flushE,rdD,rdE);
-		// ä¼ é?’ä½¿èƒ½ä¿¡å?
+		// 传�?�使能信�?
 	flopenrc #(4) r8E(clk,rst,~stallE,flushE,memwriteD,memwriteE);
 	flopenrc #(3) r9E(clk,rst,~stallE,flushE,memopD,memopE);
 	flopenrc #(32) r10E(clk,rst,~stallE,flushE,pcplus4D,pcplus4E);
@@ -210,7 +210,7 @@ module datapath(
 	flopenrc #(1) r5M(clk,rst,~stallM,flushM,stall_divE,stall_divM);
 	flopenrc #(3) r6M(clk,rst,~stallM,flushM,memopE,memopM);
 
-	// MEMé˜¶æ®µï¼Œå­˜æ•°æ®é˜¶æ®µ
+	// MEM阶段，存数据阶段
 	always @(*) begin
         case (memopM)
             3'b111:begin
@@ -244,7 +244,7 @@ module datapath(
 	
 	assign memwriteM = temp;
 	assign writedataM = writedata;
-	//æŠŠhiloçš„å†™æ”¾åœ¨memoryé˜¶æ®µ
+	//把hilo的写放在memory阶段
 	hilo_reg hilo(.clk(clk),.rst(rst),.we(hilowriteM&~stall_divM),.hi(hilo_inM[63:32]),.lo(hilo_inM[31:0]),.hi_o(hilo_outM[63:32]),.lo_o(hilo_outM[31:0]));
 
 	//writeback stage
@@ -253,7 +253,7 @@ module datapath(
 	flopenrc #(5) r3W(clk,rst,~stallW,flushW,writeregM,writeregW);
 	flopenrc #(3) r4W(clk,rst,~stallW,flushW,memopM,memopW);
 	
-		// å–æ“ä½œåˆ¤å®?
+		// 取操作判�?
 	always @(*) begin
         case (memopW)
         // LW

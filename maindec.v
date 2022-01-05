@@ -44,15 +44,15 @@ assign {regwrite,regdst,alusrc,branch,memwrite,memtoreg,jump,memop,hilowrite,jba
             6'b000000:begin
                 case(funct)
                     `EXE_MFHI:controls <= 18'b1_01_00_0000_000000000;//mfhi
-			         `EXE_MTHI:controls <= 18'b0_10_00_0000_000001000;//mthi
-			         `EXE_MFLO:controls <= 18'b1_01_00_0000_000000000;//mflo
-			         `EXE_MTLO:controls <= 18'b0_10_00_0000_000001000;//mtlo
-			         `EXE_MULT:controls <= 18'b0_01_00_0000_000001000;
+			        `EXE_MTHI:controls <= 18'b0_10_00_0000_000001000;//mthi
+			        `EXE_MFLO:controls <= 18'b1_01_00_0000_000000000;//mflo
+			        `EXE_MTLO:controls <= 18'b0_10_00_0000_000001000;//mtlo
+			        `EXE_MULT:controls <= 18'b0_01_00_0000_000001000;
 		          	`EXE_MULTU:controls <= 18'b0_01_00_0000_000001000;
 		          	`EXE_DIV:controls <= 18'b0_01_00_0000_000001000;
 		          	`EXE_DIVU:controls <= 18'b0_01_00_0000_000001000;
 		          	6'b001000:controls <= 18'b0_00_00_0000_010000010;//JR
-			         6'b001001:controls <= 18'b1_01_00_0000_010000110;//JALR
+			        6'b001001:controls <= 18'b1_01_00_0000_010000110;//JALR
                 default:controls <= 18'b101000000000000000;
                 endcase
                 
@@ -95,8 +95,10 @@ assign {regwrite,regdst,alusrc,branch,memwrite,memtoreg,jump,memop,hilowrite,jba
 			6'b000011:controls <= 18'b1_10_00_0000_010000101;//JAL
 
 			
-			6'b001000:controls <= 18'b1_00_10_0000_000000000;
-			6'b001001:controls <= 18'b1_00_10_0000_000000000;
+			6'b001000:controls <= 18'b1_00_10_0000_000000000;//ADDI
+			6'b001001:controls <= 18'b1_00_10_0000_000000000;//ADDIU
+			`EXE_SLTI:controls <= 18'b1_00_10_0000_000000000;//SLTI
+			`EXE_SLTIU:controls <= 18'b1_00_10_0000_000000000;//SLTIU
 			default:  controls <= 18'b00000000000000000;//illegal op
 		endcase
 	end
